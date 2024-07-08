@@ -1,0 +1,44 @@
+<%-include('templates/header')%>
+
+<ul id="messages"></ul>
+
+<form>
+
+    <input type="text" placeholder="send message" autocomplete="off">
+    <button>send</button>
+</form>
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    let frm=document.querySelector('form');
+
+    let inp=document.querySelector('input');
+    let list=document.querySelector('#messages');
+
+    const socket=io();
+
+    
+
+    frm.addEventListener('submit',(e)=>{
+
+        e.preventDefault();
+
+        if(inp.value.trim()!=''){
+
+            socket.emit('chat message',inp.value);
+
+        }
+
+        
+    })
+
+    
+    socket.on('chat message',(msg)=>{
+
+list.innerHTML+=`<li>${msg}</li>`;
+})
+</script>
+<%-include('templates/footer')%>
